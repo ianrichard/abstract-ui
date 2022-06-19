@@ -1,0 +1,37 @@
+@use 'sass:map';
+@use 'sass:list';
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/grid';
+@import "~bootstrap/scss/bootstrap";
+
+$directions: 'top', 'bottom', 'left', 'right';
+
+.layout {
+    @for $i from 0 through 5 {
+        @each $direction in $directions {
+            &__#{$direction}-#{$i} {
+
+                margin-#{$direction}: map-get($spacers, $i) !important;
+
+                // @include media-breakpoint-up(md) {
+                //     margin-#{$direction}: map-get($spacers, $i + 1) !important;
+                // }
+            }
+        }
+    }
+}
+
+html {
+    font-size: 14px;
+
+    @include media-breakpoint-up(sm) {
+        font-size: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+        font-size: 18px;
+    }
+}

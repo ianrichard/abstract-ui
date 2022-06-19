@@ -4,10 +4,17 @@ import { createBrowserHistory } from 'history';
 
 import Home from './routes/Home';
 
-export const App = () => (
+import '../server';
+
+// import 'bootstrap/scss/bootstrap.scss';
+
+import './infrastructure/layout.scss';
+
+export const App = () => {
+    return (
     <Router history={createBrowserHistory()}>
         <Switch>
             <Route exact path="/" component={Home} />
         </Switch>
     </Router>
-);
+)};
