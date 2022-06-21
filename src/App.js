@@ -1,19 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import Home from './routes/Home';
-import MaterialUI from './design-systems/material-ui/Index';
+
+import '../server';
 
 // import 'bootstrap/scss/bootstrap.scss';
 
 import './components/layout.scss';
 
-export const App = () => (
+export const App = () => {
+    return (
     <Router history={createBrowserHistory()}>
         <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/material-ui" component={MaterialUI} />
         </Switch>
     </Router>
-);
+)};

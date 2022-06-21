@@ -1,9 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const ROOT_DIRECTORY = path.join(__dirname, '..');
 const SRC_DIRECTORY = path.join(ROOT_DIRECTORY, 'src');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const config = {
     entry: [path.resolve(__dirname, '../src/index.js')],
@@ -23,6 +26,7 @@ const config = {
         new HtmlWebpackPlugin({
             template: path.join(SRC_DIRECTORY, 'index.html'),
         }),
+        isDevelopment && new ReactRefreshWebpackPlugin()
         // new CopyWebpackPlugin({
         //     patterns: [
         //         {
@@ -31,10 +35,10 @@ const config = {
         //         },
         //     ],
         // }),
-    ],
+    ].filter(Boolean),
     module: {
         rules: [
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+            // { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
@@ -42,6 +46,18 @@ const config = {
             {
                 test: /\.(png|svg|jpg|gif|pdf)$/,
                 use: ['file-loader'],
+            },
+            {
+                test: /\.(js|jsx)?$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: require.resolve('babel-loader'),
+                        options: {
+                            plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+                        },
+                    },
+                ],
             },
         ],
     },
