@@ -9,7 +9,7 @@ const SRC_DIRECTORY = path.join(ROOT_DIRECTORY, 'src');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const config = {
-    entry: [path.resolve(__dirname, '../src/index.js')],
+    entry: [path.resolve(__dirname, '../src/Index.jsx')],
     output: {
         path: path.resolve(__dirname, '../build'),
         filename: 'bundle.js',
@@ -17,6 +17,7 @@ const config = {
     },
     mode: 'development',
     resolve: {
+        extensions: ['.js', '.jsx', '.scss'],
         modules: [path.resolve('node_modules'), 'node_modules'],
     },
     performance: {
@@ -54,7 +55,7 @@ const config = {
                     {
                         loader: require.resolve('babel-loader'),
                         options: {
-                            plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+                            plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),                            
                         },
                     },
                 ],

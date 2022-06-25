@@ -14,7 +14,8 @@ const page = [
             },
             {
                 component: 'Typography',
-                children: 'fooooooo',
+                displayIf: '(storeValues) => storeValues.test === "foo"',
+                renderText: '(storeValues) => `${storeValues.test || ""} ${storeValues.test2 || ""}`',
                 variant: 'h3',
                 layout: {
                     top: '1',
@@ -30,8 +31,23 @@ const page = [
             },
             {
                 component: 'TextField',
-                label: 'foo',
+                label: 'text input',
                 variant: 'outlined',
+                id: 'test',
+                layout: {
+                    top: '1',
+                    left: '1',
+                },
+                wrapper: {
+                    component: 'Col',
+                    // md: '2',
+                },
+            },
+            {
+                component: 'TextField',
+                label: 'text input 2',
+                variant: 'outlined',
+                id: 'test2',
                 layout: {
                     top: '1',
                     left: '1',

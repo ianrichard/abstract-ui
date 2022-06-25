@@ -6,39 +6,18 @@
 @import 'bootstrap/scss/mixins';
 @import 'bootstrap/scss/grid';
 
-// TODO - make another loop for the top / bottom / left / right instead of copy / paste
+$directions: 'top', 'bottom', 'left', 'right';
 
 .layout {
     @for $i from 0 through 5 {
-        &__top-#{$i} {
-            margin-top: map-get($spacers, $i) !important;
+        @each $direction in $directions {
+            &__#{$direction}-#{$i} {
 
-            @include media-breakpoint-up(md) {
-                margin-top: map-get($spacers, $i + 1) !important;
-            }
-        }
+                margin-#{$direction}: map-get($spacers, $i) !important;
 
-        &__bottom-#{$i} {
-            margin-bottom: map-get($spacers, $i) !important;
-
-            @include media-breakpoint-up(md) {
-                margin-bottom: map-get($spacers, $i + 1) !important;
-            }
-        }
-
-        &__left-#{$i} {
-            margin-left: map-get($spacers, $i) !important;
-
-            @include media-breakpoint-up(md) {
-                margin-left: map-get($spacers, $i + 1) !important;
-            }
-        }
-
-        &__right-#{$i} {
-            margin-right: map-get($spacers, $i) !important;
-
-            @include media-breakpoint-up(md) {
-                margin-right: map-get($spacers, $i + 1) !important;
+                @include media-breakpoint-up(md) {
+                    margin-#{$direction}: map-get($spacers, $i + 1) !important;
+                }
             }
         }
     }

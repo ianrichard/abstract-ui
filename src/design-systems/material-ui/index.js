@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import boostrapLayout from '../../components/bootstrap-layout/components.js';
+import boostrapLayout from '../bootstrap-layout';
 
 const components = {
     ...boostrapLayout,
