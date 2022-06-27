@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React, { useState } from "react";
+import classNames from "classnames";
 
-const breakpoints = ['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs'];
-const wrapperComponents = ['Container', 'Row', 'Col'];
+const breakpoints = ["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"];
+const wrapperComponents = ["Container", "Row", "Col"];
 
 const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
     return classNames({
@@ -11,11 +11,13 @@ const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
         [`layout__bottom-${bottom}`]: bottom,
         [`layout__left-${left}`]: left,
         [`layout__right-${right}`]: right,
-    })
-}
+    });
+};
 
 const AbstractRenderer = ({ pageConfig, components }) => {
-    const pageConfigArray = Array.isArray(pageConfig) ? pageConfig : [pageConfig];
+    const pageConfigArray = Array.isArray(pageConfig)
+        ? pageConfig
+        : [pageConfig];
 
     const [storeValues, setStoreValues] = useState({});
 
@@ -42,28 +44,36 @@ const AbstractRenderer = ({ pageConfig, components }) => {
                     if (renderText) {
                         renderedChild = eval(renderText)(storeValues);
                     } else if (wrapperComponents.includes(componentName)) {
-                        renderedChild = <AbstractRenderer pageConfig={children} components={components} />
+                        renderedChild = (
+                            <AbstractRenderer
+                                pageConfig={children}
+                                components={components}
+                            />
+                        );
                     }
                 } else {
                     renderedChild = null;
                 }
 
                 return (
-                    <Component key={index} onChange={(e) => {
-                        setStoreValues({
-                            ...storeValues,
-                            [id]: e.target.value,
-                        })
-                        onChange && onChange(e);
-                    }} {...other}
+                    <Component
+                        key={index}
+                        onChange={(e) => {
+                            setStoreValues({
+                                ...storeValues,
+                                [id]: e.target.value,
+                            });
+                            onChange && onChange(e);
+                        }}
+                        {...other}
                         className={getLayoutClassNames(layout, className)}
                     >
                         {renderedChild}
                     </Component>
-                )
+                );
             })}
         </>
-    )
+    );
 };
 
 export default AbstractRenderer;

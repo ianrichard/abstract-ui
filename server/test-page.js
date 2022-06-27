@@ -1,7 +1,6 @@
 const page = [
     {
-        component: 'Row',
-        md: '6',
+        component: 'Container',
         children: [
             {
                 component: 'Col',
