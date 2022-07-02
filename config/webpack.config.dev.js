@@ -1,23 +1,24 @@
 const path = require('path');
 const config = require('./webpack.config.js');
 
-const port = 3000;
-let publicUrl = `ws://localhost:${port}/ws`;
-if (process.env.GITPOD_WORKSPACE_URL) {
-  const [schema, host] = process.env.GITPOD_WORKSPACE_URL.split('://');
-  publicUrl = `${port}-${host}`;
-}
+const port = 8080;
 
 config.devServer = {
-  historyApiFallback: true,
-  hot: true,
-  contentBase: path.join(__dirname, '../build'),
-  port: port,
-  allowedHosts: ['.gitpod.io'],
-  sockHost: publicUrl,
-  sockPort: 443,
-  sockPath: '',
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, '../build'),
+    port,
 };
+
+if (process.env.GITPOD_WORKSPACE_URL) {
+    const [host] = process.env.GITPOD_WORKSPACE_URL.split('://');
+    config.devServer = {
+        ...config.devServer,
+        allowedHosts: ['.gitpod.io'],
+        sockHost:  `${port}-${host}`,
+        sockPort: 443,
+        sockPath: '',
+    }
+}
 
 config.devtool = 'inline-source-map';
 
