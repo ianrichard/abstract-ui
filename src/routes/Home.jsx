@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import components from '../design-systems/material-ui';
-import AbstractRenderer from '../components/AbstractRenderer';
+import AbstractRenderer from '../infrastructure/AbstractRenderer';
+import {globalNavigation} from '../templates/patterns';
 
 const Home = () => {
   const [pageConfig, setPageConfig] = useState([]);
@@ -13,7 +14,7 @@ const Home = () => {
       })
   }, []);
 
-  return <AbstractRenderer pageConfig={pageConfig} components={components} />
+  return <AbstractRenderer pageConfig={[...globalNavigation, ...pageConfig]} components={components} />
 };
 
 export default Home;

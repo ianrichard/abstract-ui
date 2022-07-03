@@ -1,9 +1,12 @@
 const page = [
     {
         component: 'Container',
+        layout: {
+            bottom: 4
+        },
         children: [
             {
-                component: 'Col',
+                component: 'Column',
                 children: {
                     component: 'Typography',
                     variant: 'p',
@@ -21,7 +24,7 @@ const page = [
                     left: '3',
                 },
                 wrapper: {
-                    component: 'Col',
+                    component: 'Column',
                     // md: '2',
                     layout: {
                         top: '5',
@@ -38,7 +41,7 @@ const page = [
                     left: '1',
                 },
                 wrapper: {
-                    component: 'Col',
+                    component: 'Column',
                     // md: '2',
                 },
             },
@@ -52,7 +55,7 @@ const page = [
                     left: '1',
                 },
                 wrapper: {
-                    component: 'Col',
+                    component: 'Column',
                     // md: '2',
                 },
             },

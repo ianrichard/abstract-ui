@@ -8,7 +8,7 @@ import '../server';
 
 // import 'bootstrap/scss/bootstrap.scss';
 
-import './components/layout.scss';
+import './infrastructure/layout.scss';
 
 export const App = () => {
     return (

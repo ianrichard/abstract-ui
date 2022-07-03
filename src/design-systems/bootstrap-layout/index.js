@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 const components = {
     'Container': Container,
     'Row': Row,
-    'Col': Col,
+    'Column': Col,
 }
 
 export default components;
