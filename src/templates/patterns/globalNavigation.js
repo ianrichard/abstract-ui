@@ -28,7 +28,7 @@ const globalNavigation = [
                 {
                     component: 'AdjustIcon',
                     layout: {
-                        right: 2
+                        right: 1
                     },
                     style: {
                         width: '1.45em',

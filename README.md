@@ -24,11 +24,6 @@ Thanks to who made the [react-webpack-babel](https://github.com/ReactJSResources
 ### Pre-Release
 
 - Random v0 stuff
-  - Make directory structure
-  - Components
-  - Patterns
-  - Templates
-  - Make global navigation pattern
   - Make demo page with nav, header, email signup, submit button, confirmation notice
 - Add all material components
 - Add component GUI

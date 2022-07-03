@@ -59,6 +59,20 @@ const page = [
                     // md: '2',
                 },
             },
+            {
+                component: 'TextField',
+                label: 'text input',
+                variant: 'outlined',
+                id: 'test',
+                layout: {
+                    top: '1',
+                    left: '1',
+                },
+                wrapper: {
+                    component: 'Column',
+                    // md: '2',
+                },
+            }
         ],
     },
 ]
