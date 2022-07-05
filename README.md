@@ -24,7 +24,7 @@ Thanks to who made the [react-webpack-babel](https://github.com/ReactJSResources
 ### Pre-Release
 
 - Random v0 stuff
-  - Make demo page with nav, header, email signup, submit button, confirmation notice
+  - Clean up lint stuff
 - Add all material components
 - Add component GUI
   - Create + button

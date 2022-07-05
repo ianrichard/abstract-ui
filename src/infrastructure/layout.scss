@@ -16,10 +16,22 @@ $directions: 'top', 'bottom', 'left', 'right';
 
                 margin-#{$direction}: map-get($spacers, $i) !important;
 
-                @include media-breakpoint-up(md) {
-                    margin-#{$direction}: map-get($spacers, $i + 1) !important;
-                }
+                // @include media-breakpoint-up(md) {
+                //     margin-#{$direction}: map-get($spacers, $i + 1) !important;
+                // }
             }
         }
+    }
+}
+
+html {
+    font-size: 14px;
+
+    @include media-breakpoint-up(sm) {
+        font-size: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+        font-size: 18px;
     }
 }

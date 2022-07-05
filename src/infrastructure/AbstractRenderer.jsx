@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import classNames from "classnames";
-
-const breakpoints = ["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"];
-const wrapperComponents = ['Box', "Container", "Row", "Column"];
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
 const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
     return classNames({
@@ -15,71 +12,93 @@ const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
 };
 
 const AbstractRenderer = ({ pageConfig, components }) => {
-    const pageConfigArray = Array.isArray(pageConfig)
-        ? pageConfig
-        : [pageConfig];
-
     const [storeValues, setStoreValues] = useState({});
 
-    return (
-        <>
-            {pageConfigArray.map((pageConfigItem, index) => {
-                if (typeof pageConfigItem === 'string') {
-                    return pageConfigItem;
-                }
+    const handleInputChange = (e, onChange) => {
+        e.preventDefault();
+        setStoreValues({
+            ...storeValues,
+            [e.target.name || e.target.id]: e.target.value,
+        });
+        onChange && onChange(e);
+    };
 
-                const {
-                    children,
-                    className,
-                    component: componentName,
-                    displayIf,
-                    id,
-                    layout,
-                    onChange,
-                    renderText,
-                    ...other
-                } = pageConfigItem;
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setStoreValues({
+            ...storeValues,
+            submitted: true,
+        });
+    };
 
-                const Component = componentName ? components[componentName] : null;
+    const renderSection = (sectionConfig) => {
+        const sectionConfigArray = Array.isArray(sectionConfig)
+            ? sectionConfig
+            : [sectionConfig];
 
-                let renderedChild = children;
+        return (
+            <>
+                {sectionConfigArray.map((sectionConfigItem, index) => {
+                    if (typeof sectionConfigItem === 'string') {
+                        return sectionConfigItem;
+                    }
 
-                if (!displayIf || eval(displayIf)(storeValues)) {
+                    const {
+                        children,
+                        className,
+                        component: componentName,
+                        displayIf,
+                        name,
+                        layout,
+                        onChange,
+                        renderText,
+                        ...other
+                    } = sectionConfigItem;
+
+                    const shouldRender =
+                        !displayIf || eval(displayIf)(storeValues);
+                    if (!shouldRender) {
+                        return;
+                    }
+
+                    let Component;
+
+                    if (componentName) {
+                        const whitelistedComponent = components[componentName];
+                        Component = whitelistedComponent
+                            ? whitelistedComponent
+                            : componentName;
+                    }
+
+                    let renderedChild = children;
+
                     if (renderText) {
                         renderedChild = eval(renderText)(storeValues);
-                    } else if (Array.isArray(children) || wrapperComponents.includes(componentName)) {
-                        renderedChild = (
-                            <AbstractRenderer
-                                pageConfig={children}
-                                components={components}
-                            />
-                        );
+                    } else if (children) {
+                        renderedChild = renderSection(children);
                     }
-                } else {
-                    renderedChild = null;
-                }
 
-                console.log(renderedChild);
+                    return Component ? (
+                        <Component
+                            className={getLayoutClassNames(layout, className)}
+                            key={index}
+                            name={name}
+                            // todo - dynamically do checks for onchange and submit
+                            onChange={(e) => handleInputChange(e, onChange)}
+                            onSubmit={handleFormSubmit}
+                            {...other}
+                        >
+                            {renderedChild}
+                        </Component>
+                    ) : (
+                        children
+                    );
+                })}
+            </>
+        );
+    };
 
-                return (
-                    Component ? (<Component
-                        key={index}
-                        onChange={(e) => {
-                            setStoreValues({
-                                ...storeValues,
-                                [id]: e.target.value,
-                            });
-                            onChange && onChange(e);
-                        }}
-                        {...other}
-                        className={getLayoutClassNames(layout, className)}
-                    >
-                        {renderedChild}
-                    </Component>) : children
-                );
-            })}
-        </>
-    );
+    return <>{renderSection(pageConfig, components)}</>;
 };
 
 export default AbstractRenderer;

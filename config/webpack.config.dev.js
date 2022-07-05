@@ -15,10 +15,10 @@ if (process.env.GITPOD_WORKSPACE_URL) {
     config.devServer = {
         ...config.devServer,
         allowedHosts: ['.gitpod.io'],
-        sockHost:  `${port}-${workspaceUrl.split('://')[1]}`,
+        sockHost: `${port}-${workspaceUrl.split('://')[1]}`,
         sockPort: 443,
         sockPath: '',
-    }
+    };
     console.log(`project is running at ${demoUrl}`);
 }
 

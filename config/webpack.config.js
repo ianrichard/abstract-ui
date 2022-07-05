@@ -27,7 +27,7 @@ const config = {
         new HtmlWebpackPlugin({
             template: path.join(SRC_DIRECTORY, 'index.html'),
         }),
-        isDevelopment && new ReactRefreshWebpackPlugin()
+        isDevelopment && new ReactRefreshWebpackPlugin(),
         // new CopyWebpackPlugin({
         //     patterns: [
         //         {
@@ -55,7 +55,10 @@ const config = {
                     {
                         loader: require.resolve('babel-loader'),
                         options: {
-                            plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),                            
+                            plugins: [
+                                isDevelopment &&
+                                    require.resolve('react-refresh/babel'),
+                            ].filter(Boolean),
                         },
                     },
                 ],
