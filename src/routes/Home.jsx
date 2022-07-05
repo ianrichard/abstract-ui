@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import components from '../design-systems/material-ui';
 import AbstractRenderer from '../infrastructure/AbstractRenderer';
-import { globalNavigation } from '../templates/patterns';
-// import TextField from '@mui/material/TextField';
 
 const Home = () => {
     const [pageConfig, setPageConfig] = useState([]);
@@ -17,7 +15,7 @@ const Home = () => {
 
     return (
         <AbstractRenderer
-            pageConfig={[...globalNavigation, ...pageConfig]}
+            pageConfig={pageConfig}
             components={components}
         />
     );

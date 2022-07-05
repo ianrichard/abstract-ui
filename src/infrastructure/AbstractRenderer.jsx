@@ -12,6 +12,10 @@ const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
 };
 
 const AbstractRenderer = ({ pageConfig, components }) => {
+    if (!pageConfig || !components) {
+        return <p>Loading...</p>
+    }
+    
     const [storeValues, setStoreValues] = useState({});
 
     const handleInputChange = (e, onChange) => {

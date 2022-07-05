@@ -1,8 +1,39 @@
+import globalNavigation from '../src/templates/patterns/globalNavigation';
+
 const page = [
     {
         component: 'Container',
         layout: {
-            bottom: 4
+            top: 4,
+            bottom: 4,
+        },
+        children: {
+            component: 'Typography',
+            variant: 'h5',
+            as: 'h1',
+            style: {
+                display: 'flex',
+                alignItems: 'center',
+            },
+            children: [
+                {
+                    component: 'AdjustIcon',
+                    layout: {
+                        right: 1,
+                    },
+                    style: {
+                        width: '1.45em',
+                        height: '1.45em',
+                    },
+                },
+                "Abstract UI",
+            ],
+        },
+    },
+    {
+        component: 'Container',
+        layout: {
+            bottom: 4,
         },
         children: [
             {
@@ -29,7 +60,8 @@ const page = [
                 style: {
                     display: 'flex',
                 },
-                displayIf: '(storeValues) => !(storeValues.email && storeValues.submitted)',
+                displayIf:
+                    '(storeValues) => !(storeValues.email && storeValues.submitted)',
                 children: [
                     {
                         component: 'TextField',
@@ -38,7 +70,7 @@ const page = [
                         name: 'email',
                         size: 'large',
                         layout: {
-                            right: 3
+                            right: 3,
                         },
                     },
                     {
@@ -49,22 +81,24 @@ const page = [
                         type: 'submit',
                         style: {
                             height: 'inherit',
-                        }
+                        },
                     },
-                ]
+                ],
             },
             {
                 component: 'Typography',
-                displayIf: '(storeValues) => storeValues.email && storeValues.submitted',
-                renderText: '(storeValues) => `Successfully subscribed ${storeValues.email}.`',
+                displayIf:
+                    '(storeValues) => storeValues.email && storeValues.submitted',
+                renderText:
+                    '(storeValues) => `Successfully subscribed ${storeValues.email}.`',
                 variant: 'p',
                 as: 'p',
                 layout: {
                     top: '1',
                 },
-            }
+            },
         ],
     },
-]
+];
 
 export default page;

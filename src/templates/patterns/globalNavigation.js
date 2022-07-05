@@ -1,5 +1,5 @@
-const globalNavigation = [
-    {
+const globalNavigation = ({ pageTitle }) => {
+    return {
         component: 'Container',
         layout: {
             top: 4,
@@ -17,16 +17,17 @@ const globalNavigation = [
                 {
                     component: 'AdjustIcon',
                     layout: {
-                        right: 1
+                        right: 1,
                     },
                     style: {
                         width: '1.45em',
                         height: '1.45em',
-                    }
-                }, 'Absract UI'
-            ]
-        }
-    },
-]
+                    },
+                },
+                pageTitle,
+            ],
+        },
+    };
+};
 
 export default globalNavigation;
