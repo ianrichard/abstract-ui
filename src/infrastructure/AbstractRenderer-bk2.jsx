@@ -14,8 +14,11 @@ const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
 };
 
 const AbstractRenderer = ({ pageConfig, components, patterns }) => {
+    if (!pageConfig || !components) {
+        return <p>Loading...</p>;
+    }
+
     const [storeValues, setStoreValues] = useState({});
-    const [normalizedConfig, setNormalizedConfig] = useState([]);
 
     const handleInputChange = (e, onChange) => {
         e.preventDefault();
@@ -34,7 +37,7 @@ const AbstractRenderer = ({ pageConfig, components, patterns }) => {
         });
     };
 
-    const renderSection = (sectionConfig = []) => {
+    const renderSection = (sectionConfig) => {
         const sectionConfigArray = Array.isArray(sectionConfig)
             ? sectionConfig
             : [sectionConfig];
@@ -49,21 +52,54 @@ const AbstractRenderer = ({ pageConfig, components, patterns }) => {
                     const {
                         children,
                         className,
-                        component,
+                        component: componentName,
+                        displayIf,
                         name,
                         layout,
                         onChange,
-                        shouldRender,
+                        pattern,
+                        renderText,
                         ...other
                     } = sectionConfigItem;
 
+                    if (pattern) {
+                        // mutable patterns
+                        let sectionToRender = patterns[pattern];
+                        // locked down patterns
+                        if (typeof sectionToRender === 'function') {
+                            sectionToRender = sectionToRender(sectionConfigItem);
+                        }
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                {renderSection(sectionToRender)}
+                            </React.Fragment>
+                        );
+                    }
+
+                    const shouldRender =
+                        !displayIf || eval(displayIf)(storeValues);
                     if (!shouldRender) {
                         return;
                     }
 
-                    const Component = component;
+                    let Component;
 
-                    return (
+                    if (componentName) {
+                        const whitelistedComponent = components[componentName];
+                        Component = whitelistedComponent
+                            ? whitelistedComponent
+                            : componentName;
+                    }
+
+                    let renderedChild = children;
+
+                    if (renderText) {
+                        renderedChild = eval(renderText)(storeValues);
+                    } else if (children) {
+                        renderedChild = renderSection(children);
+                    }
+
+                    return Component ? (
                         <Component
                             className={getLayoutClassNames(layout, className)}
                             key={index}
@@ -73,19 +109,21 @@ const AbstractRenderer = ({ pageConfig, components, patterns }) => {
                             onSubmit={handleFormSubmit}
                             {...other}
                         >
-                            {renderSection(children)}
+                            {renderedChild}
                         </Component>
-                    )
+                    ) : (
+                        children
+                    );
                 })}
             </>
         );
     };
 
     useEffect(() => {
-        setNormalizedConfig(normalizePageConfig(pageConfig, components, patterns, storeValues));
-    }, [pageConfig, storeValues]);
+        normalizePageConfig(pageConfig, components, patterns, storeValues);
+    }, [pageConfig]);
 
-    return <>{renderSection(normalizedConfig)}</>;
+    return <>{renderSection(pageConfig, components)}</>;
 };
 
 export default AbstractRenderer;

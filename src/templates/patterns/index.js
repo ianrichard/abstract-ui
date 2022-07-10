@@ -1,3 +1,5 @@
 import globalNavigation from './globalNavigation';
 
-export { globalNavigation };
+export default {  
+    'GlobalNavigation' : globalNavigation,
+};

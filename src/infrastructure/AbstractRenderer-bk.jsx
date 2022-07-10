@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { useEffect } from 'react';
-import normalizePageConfig from './normalizePageConfig';
 
 const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
     return classNames({
@@ -15,7 +13,6 @@ const getLayoutClassNames = ({ top, bottom, left, right } = {}, className) => {
 
 const AbstractRenderer = ({ pageConfig, components, patterns }) => {
     const [storeValues, setStoreValues] = useState({});
-    const [normalizedConfig, setNormalizedConfig] = useState([]);
 
     const handleInputChange = (e, onChange) => {
         e.preventDefault();
@@ -34,7 +31,7 @@ const AbstractRenderer = ({ pageConfig, components, patterns }) => {
         });
     };
 
-    const renderSection = (sectionConfig = []) => {
+    const renderSection = (sectionConfig) => {
         const sectionConfigArray = Array.isArray(sectionConfig)
             ? sectionConfig
             : [sectionConfig];
@@ -49,43 +46,64 @@ const AbstractRenderer = ({ pageConfig, components, patterns }) => {
                     const {
                         children,
                         className,
-                        component,
+                        component: componentName,
+                        displayIf,
                         name,
                         layout,
                         onChange,
-                        shouldRender,
+                        pattern,
+                        renderText,
                         ...other
                     } = sectionConfigItem;
 
+                    const shouldRender =
+                        !displayIf || eval(displayIf)(storeValues);
                     if (!shouldRender) {
                         return;
                     }
 
-                    const Component = component;
+                    let Component = 'div';
 
-                    return (
+                    if (componentName) {
+                        const whitelistedComponent = components[componentName];
+                        Component = whitelistedComponent
+                            ? whitelistedComponent
+                            : componentName;
+                    }
+
+                    let renderedChild = children;
+
+                    if (pattern) {
+                        renderedChild = renderSection(
+                            patterns[pattern](sectionConfigItem)
+                        );
+                    } else if (renderText) {
+                        renderedChild = eval(renderText)(storeValues);
+                    } else if (children) {
+                        renderedChild = renderSection(children);
+                    }
+
+                    return Component ? (
                         <Component
                             className={getLayoutClassNames(layout, className)}
-                            key={index}
+                            key={index + Math.random()}
                             name={name}
                             // todo - dynamically do checks for onchange and submit
                             onChange={(e) => handleInputChange(e, onChange)}
                             onSubmit={handleFormSubmit}
                             {...other}
                         >
-                            {renderSection(children)}
+                            {renderedChild}
                         </Component>
-                    )
+                    ) : (
+                        children
+                    );
                 })}
             </>
         );
     };
 
-    useEffect(() => {
-        setNormalizedConfig(normalizePageConfig(pageConfig, components, patterns, storeValues));
-    }, [pageConfig, storeValues]);
-
-    return <>{renderSection(normalizedConfig)}</>;
+    return <>{renderSection(pageConfig, components)}</>;
 };
 
 export default AbstractRenderer;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import components from '../design-systems/material-ui';
+import patterns from '../templates/patterns';
 import AbstractRenderer from '../infrastructure/AbstractRenderer';
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
         <AbstractRenderer
             pageConfig={pageConfig}
             components={components}
+            patterns={patterns}
         />
     );
 };

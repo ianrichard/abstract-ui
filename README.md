@@ -25,7 +25,6 @@ Thanks to who made the [react-webpack-babel](https://github.com/ReactJSResources
 
 - Random v0 stuff
   - Clean up lint stuff
-- Add all material components
 - Add component GUI
   - Create + button
   - Create components pane with position toggle

@@ -1,34 +1,7 @@
-import globalNavigation from '../src/templates/patterns/globalNavigation';
-
 const page = [
     {
-        component: 'Container',
-        layout: {
-            top: 4,
-            bottom: 4,
-        },
-        children: {
-            component: 'Typography',
-            variant: 'h5',
-            as: 'h1',
-            style: {
-                display: 'flex',
-                alignItems: 'center',
-            },
-            children: [
-                {
-                    component: 'AdjustIcon',
-                    layout: {
-                        right: 1,
-                    },
-                    style: {
-                        width: '1.45em',
-                        height: '1.45em',
-                    },
-                },
-                "Abstract UI",
-            ],
-        },
+        pattern: 'GlobalNavigation',
+        pageTitle: 'Abstract UI',
     },
     {
         component: 'Container',
@@ -53,7 +26,7 @@ const page = [
                 layout: {
                     bottom: 5,
                 },
-                children: 'Stay in the know with the latest updates.',
+                children: 'Submit email for test of state management. Does not actually submit.',
             },
             {
                 component: 'form',
